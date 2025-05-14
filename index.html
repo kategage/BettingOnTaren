@@ -99,12 +99,16 @@
             margin-top: 10px;
         }
         
-        input[type="number"] {
+        input[type="number"], input[type="text"] {
             width: 80%;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
             margin-bottom: 10px;
+        }
+        
+        .username-input {
+            border-bottom: 2px solid var(--primary) !important;
         }
         
         button {
@@ -214,6 +218,7 @@
                 <div class="odds" id="yesOdds">50%</div>
                 <p>Current Pool: $<span id="yesPool">0</span></p>
                 <div class="bet-form">
+                    <input type="text" id="yesUsername" placeholder="Your username" maxlength="15" class="username-input">
                     <input type="number" id="yesBetAmount" placeholder="Enter bet amount" min="5">
                     <button onclick="placeBet('yes')">Place Bet</button>
                 </div>
@@ -225,6 +230,7 @@
                 <div class="odds" id="noOdds">50%</div>
                 <p>Current Pool: $<span id="noPool">0</span></p>
                 <div class="bet-form">
+                    <input type="text" id="noUsername" placeholder="Your username" maxlength="15" class="username-input">
                     <input type="number" id="noBetAmount" placeholder="Enter bet amount" min="5">
                     <button onclick="placeBet('no')">Place Bet</button>
                 </div>
@@ -232,7 +238,7 @@
         </div>
         
         <div class="alert" id="latestUpdate">
-            LATEST UPDATE: Amtrak reports possible track maintenance on Sunday night that could affect Monday morning Acela trains.
+            Betting pool is open! Place your bets on whether Taren will make her meeting.
         </div>
         
         <div class="factors">
@@ -343,14 +349,22 @@
         setInterval(updateCountdown, 1000);
         
         // Betting logic
-        let yesPool = 325;
-        let noPool = 175;
+        let yesPool = 0;
+        let noPool = 0;
         let totalPool = yesPool + noPool;
         
         function updateOdds() {
             totalPool = yesPool + noPool;
-            const yesPercentage = Math.round((yesPool / totalPool) * 100);
-            const noPercentage = 100 - yesPercentage;
+            
+            // Default to 50/50 if no bets placed
+            let yesPercentage = 50;
+            let noPercentage = 50;
+            
+            // Only calculate percentages if we have bets
+            if (totalPool > 0) {
+                yesPercentage = Math.round((yesPool / totalPool) * 100);
+                noPercentage = 100 - yesPercentage;
+            }
             
             document.getElementById('yesOdds').textContent = `${yesPercentage}%`;
             document.getElementById('noOdds').textContent = `${noPercentage}%`;
@@ -412,35 +426,9 @@
         
         // Simulate random bet activity
         function simulateActivity() {
-            // 20% chance of a new bet every 30 seconds
-            if (Math.random() < 0.2) {
-                const type = Math.random() < 0.5 ? 'yes' : 'no';
-                const amount = Math.floor(Math.random() * 46) + 5; // $5 to $50
-                
-                if (type === 'yes') {
-                    yesPool += amount;
-                } else {
-                    noPool += amount;
-                }
-                
-                updateOdds();
-                addToRecentBets(type, amount);
-            }
-            
-            // 10% chance of a new update
-            if (Math.random() < 0.1) {
-                const updates = [
-                    "Taren has confirmed her ticket on the 9:30 AM Acela from NYC.",
-                    "Track maintenance schedule confirmed for Sunday night along the Northeast Corridor.",
-                    "Meeting location confirmed to be 6 minutes walking distance from Union Station.",
-                    "Amtrak reports 85% on-time performance for the early Monday Acela trains this month.",
-                    "Meeting organizer confirmed the 12:30 PM start time is firm - no delays possible.",
-                    "Taren reports she has no backup transportation plan if the train is delayed."
-                ];
-                
-                document.getElementById('latestUpdate').textContent = 
-                    "LATEST UPDATE: " + updates[Math.floor(Math.random() * updates.length)];
-            }
+            // Disable automatic simulation
+            // This function is now empty to prevent dummy data
+        }
         }
         
         // Simulate activity every 30 seconds
