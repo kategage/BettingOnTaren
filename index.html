@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will Taren Make It? - Betting App</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4cb963;
+            --warning: #f39237;
+            --danger: #d64933;
+            --light: #f5f5f5;
+            --dark: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .countdown {
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .countdown-timer {
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        
+        .odds-container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .odds-card {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .odds-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .yes-card {
+            border-top: 5px solid var(--accent);
+        }
+        
+        .no-card {
+            border-top: 5px solid var(--danger);
+        }
+        
+        .odds {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .bet-form {
+            margin-top: 10px;
+        }
+        
+        input[type="number"] {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary);
+        }
+        
+        .bets-placed {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .factors {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .factors h2 {
+            color: var(--secondary);
+        }
+        
+        .factor-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .factor-icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .weather {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .weather-day {
+            text-align: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            width: 30%;
+        }
+        
+        .alert {
+            background-color: var(--warning);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Will Taren Make Her DC Meeting?</h1>
+            <p>Place your bets on whether Taren will make it to her Monday 12:30 PM ET meeting near Union Station!</p>
+        </header>
+        
+        <div class="countdown">
+            <p>Time until Monday's meeting (12:30 PM ET):</p>
+            <div class="countdown-timer" id="countdown">Loading...</div>
+        </div>
+        
+        <div class="odds-container">
+            <div class="odds-card yes-card">
+                <h2>YES</h2>
+                <p>Taren WILL make the meeting</p>
+                <div class="odds" id="yesOdds">65%</div>
+                <p>Current Pool: $<span id="yesPool">325</span></p>
+                <div class="bet-form">
+                    <input type="number" id="yesBetAmount" placeholder="Enter bet amount" min="5">
+                    <button onclick="placeBet('yes')">Place Bet</button>
+                </div>
+            </div>
+            
+            <div class="odds-card no-card">
+                <h2>NO</h2>
+                <p>Taren will NOT make the meeting</p>
+                <div class="odds" id="noOdds">35%</div>
+                <p>Current Pool: $<span id="noPool">175</span></p>
+                <div class="bet-form">
+                    <input type="number" id="noBetAmount" placeholder="Enter bet amount" min="5">
+                    <button onclick="placeBet('no')">Place Bet</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert" id="latestUpdate">
+            LATEST UPDATE: Amtrak reports possible track maintenance on Sunday night that could affect Monday morning Acela trains.
+        </div>
+        
+        <div class="factors">
+            <h2>Factors Affecting Odds</h2>
+            
+            <div class="factor-item">
+                <div class="factor-icon">🚄</div>
+                <div>
+                    <strong>Acela Train Status:</strong> Scheduled to arrive at Union Station at 11:55 AM ET
+                </div>
+            </div>
+            
+            <div class="factor-item">
+                <div class="factor-icon">⏱️</div>
+                <div>
+                    <strong>Critical Timing:</strong> Only 35 minutes between scheduled arrival and meeting
+                </div>
+            </div>
+            
+            <div class="factor-item">
+                <div class="factor-icon">⚠️</div>
+                <div>
+                    <strong>Risk Factor:</strong> If train is >25 minutes late, Taren will miss the meeting
+                </div>
+            </div>
+            
+            <div class="factor-item">
+                <div class="factor-icon">🧳</div>
+                <div>
+                    <strong>Taren's History:</strong> Made 7 out of last 10 scheduled meetings on time
+                </div>
+            </div>
+            
+            <h3>Amtrak Acela Performance Data</h3>
+            <div class="weather">
+                <div class="weather-day">
+                    <strong>Last Week</strong>
+                    <div>🚆</div>
+                    <div>On-time rate: 78%</div>
+                </div>
+                
+                <div class="weather-day">
+                    <strong>Past Month</strong>
+                    <div>🚆</div>
+                    <div>Average delay: 18 min</div>
+                </div>
+                
+                <div class="weather-day">
+                    <strong>NYC-DC Route</strong>
+                    <div>🚆</div>
+                    <div>22% delayed >25 min</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bets-placed">
+            <h2>Recent Bets</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Prediction</th>
+                        <th>Amount</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="betsTable">
+                    <tr>
+                        <td>JSmith</td>
+                        <td>YES</td>
+                        <td>$50</td>
+                        <td>2 hours ago</td>
+                    </tr>
+                    <tr>
+                        <td>MChen</td>
+                        <td>NO</td>
+                        <td>$75</td>
+                        <td>3 hours ago</td>
+                    </tr>
+                    <tr>
+                        <td>AWilliams</td>
+                        <td>YES</td>
+                        <td>$25</td>
+                        <td>5 hours ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <footer>
+            <p>This is a friendly betting pool. No actual money changes hands. All bets will be settled after Monday's meeting.</p>
+            <p>© 2025 Taren's Friends Betting Pool</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set the meeting date (next Monday)
+        const now = new Date();
+        const daysUntilMonday = (1 + 7 - now.getDay()) % 7 || 7; // Days until next Monday
+        const meetingDate = new Date(now);
+        meetingDate.setDate(now.getDate() + daysUntilMonday);
+        meetingDate.setHours(12, 30, 0, 0); // Meeting at 12:30 PM
+        
+        // Update countdown
+        function updateCountdown() {
+            const now = new Date();
+            const diff = meetingDate - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = "Meeting time has arrived!";
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+        
+        // Initial countdown update and then set interval
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        
+        // Betting logic
+        let yesPool = 325;
+        let noPool = 175;
+        let totalPool = yesPool + noPool;
+        
+        function updateOdds() {
+            totalPool = yesPool + noPool;
+            const yesPercentage = Math.round((yesPool / totalPool) * 100);
+            const noPercentage = 100 - yesPercentage;
+            
+            document.getElementById('yesOdds').textContent = `${yesPercentage}%`;
+            document.getElementById('noOdds').textContent = `${noPercentage}%`;
+            document.getElementById('yesPool').textContent = yesPool;
+            document.getElementById('noPool').textContent = noPool;
+        }
+        
+        function placeBet(type) {
+            const inputId = type === 'yes' ? 'yesBetAmount' : 'noBetAmount';
+            const amount = parseInt(document.getElementById(inputId).value);
+            
+            if (isNaN(amount) || amount < 5) {
+                alert('Please enter a valid bet amount (minimum $5)');
+                return;
+            }
+            
+            // Add to the appropriate pool
+            if (type === 'yes') {
+                yesPool += amount;
+            } else {
+                noPool += amount;
+            }
+            
+            // Update the odds
+            updateOdds();
+            
+            // Add to recent bets table
+            addToRecentBets(type, amount);
+            
+            // Clear input
+            document.getElementById(inputId).value = '';
+            
+            alert(`Your $${amount} bet on "${type.toUpperCase()}" has been placed!`);
+        }
+        
+        function addToRecentBets(type, amount) {
+            const table = document.getElementById('betsTable');
+            const newRow = table.insertRow(0);
+            
+            const userCell = newRow.insertCell(0);
+            const typeCell = newRow.insertCell(1);
+            const amountCell = newRow.insertCell(2);
+            const timeCell = newRow.insertCell(3);
+            
+            // Generate a random username
+            const names = ['User', 'Bettor', 'Friend', 'Fan'];
+            const randomName = names[Math.floor(Math.random() * names.length)] + Math.floor(Math.random() * 1000);
+            
+            userCell.textContent = randomName;
+            typeCell.textContent = type.toUpperCase();
+            amountCell.textContent = `$${amount}`;
+            timeCell.textContent = 'Just now';
+            
+            // Limit table to 10 rows
+            if (table.rows.length > 10) {
+                table.deleteRow(10);
+            }
+        }
+        
+        // Simulate random bet activity
+        function simulateActivity() {
+            // 20% chance of a new bet every 30 seconds
+            if (Math.random() < 0.2) {
+                const type = Math.random() < 0.5 ? 'yes' : 'no';
+                const amount = Math.floor(Math.random() * 46) + 5; // $5 to $50
+                
+                if (type === 'yes') {
+                    yesPool += amount;
+                } else {
+                    noPool += amount;
+                }
+                
+                updateOdds();
+                addToRecentBets(type, amount);
+            }
+            
+            // 10% chance of a new update
+            if (Math.random() < 0.1) {
+                const updates = [
+                    "Taren has confirmed her ticket on the 9:30 AM Acela from NYC.",
+                    "Track maintenance schedule confirmed for Sunday night along the Northeast Corridor.",
+                    "Meeting location confirmed to be 6 minutes walking distance from Union Station.",
+                    "Amtrak reports 85% on-time performance for the early Monday Acela trains this month.",
+                    "Meeting organizer confirmed the 12:30 PM start time is firm - no delays possible.",
+                    "Taren reports she has no backup transportation plan if the train is delayed."
+                ];
+                
+                document.getElementById('latestUpdate').textContent = 
+                    "LATEST UPDATE: " + updates[Math.floor(Math.random() * updates.length)];
+            }
+        }
+        
+        // Simulate activity every 30 seconds
+        setInterval(simulateActivity, 30000);
+    </script>
+</body>
+</html>
