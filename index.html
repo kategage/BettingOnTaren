@@ -333,7 +333,7 @@
         const daysUntilMonday = (1 + 7 - now.getDay()) % 7 || 7; // Days until next Monday
         const meetingDate = new Date(now);
         meetingDate.setDate(now.getDate() + daysUntilMonday);
-        meetingDate.setHours(12 +3, 30, 0, 0); // Meeting at 12:30 PM ET
+        meetingDate.setHours(12 -3, 30, 0, 0); // Meeting at 12:30 PM ET
         
         // Update countdown
         function updateCountdown() {
