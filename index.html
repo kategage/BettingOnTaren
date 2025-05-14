@@ -211,8 +211,8 @@
             <div class="odds-card yes-card">
                 <h2>YES</h2>
                 <p>Taren WILL make the meeting</p>
-                <div class="odds" id="yesOdds">65%</div>
-                <p>Current Pool: $<span id="yesPool">325</span></p>
+                <div class="odds" id="yesOdds">50%</div>
+                <p>Current Pool: $<span id="yesPool">0</span></p>
                 <div class="bet-form">
                     <input type="number" id="yesBetAmount" placeholder="Enter bet amount" min="5">
                     <button onclick="placeBet('yes')">Place Bet</button>
@@ -222,8 +222,8 @@
             <div class="odds-card no-card">
                 <h2>NO</h2>
                 <p>Taren will NOT make the meeting</p>
-                <div class="odds" id="noOdds">35%</div>
-                <p>Current Pool: $<span id="noPool">175</span></p>
+                <div class="odds" id="noOdds">50%</div>
+                <p>Current Pool: $<span id="noPool">0</span></p>
                 <div class="bet-form">
                     <input type="number" id="noBetAmount" placeholder="Enter bet amount" min="5">
                     <button onclick="placeBet('no')">Place Bet</button>
@@ -300,24 +300,7 @@
                     </tr>
                 </thead>
                 <tbody id="betsTable">
-                    <tr>
-                        <td>JSmith</td>
-                        <td>YES</td>
-                        <td>$50</td>
-                        <td>2 hours ago</td>
-                    </tr>
-                    <tr>
-                        <td>MChen</td>
-                        <td>NO</td>
-                        <td>$75</td>
-                        <td>3 hours ago</td>
-                    </tr>
-                    <tr>
-                        <td>AWilliams</td>
-                        <td>YES</td>
-                        <td>$25</td>
-                        <td>5 hours ago</td>
-                    </tr>
+                    <!-- No initial bet entries -->
                 </tbody>
             </table>
         </div>
