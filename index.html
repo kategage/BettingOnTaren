@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+.username-info {
+            font-size: 0.9rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: inline-block;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -204,6 +211,7 @@
         <header>
             <h1>Will Taren Make Her DC Meeting?</h1>
             <p>Place your bets on whether Taren will make it to her Monday 12:30 PM ET meeting near Union Station!</p>
+            <div class="username-info">Enter your name when placing a bet to appear on the leaderboard</div>
         </header>
         
         <div class="countdown">
@@ -295,7 +303,7 @@
         </div>
         
         <div class="bets-placed">
-            <h2>Recent Bets</h2>
+            <h2>Betting Leaderboard</h2>
             <table>
                 <thead>
                     <tr>
@@ -374,10 +382,17 @@
         
         function placeBet(type) {
             const inputId = type === 'yes' ? 'yesBetAmount' : 'noBetAmount';
+            const usernameId = type === 'yes' ? 'yesUsername' : 'noUsername';
             const amount = parseInt(document.getElementById(inputId).value);
+            const username = document.getElementById(usernameId).value.trim();
             
             if (isNaN(amount) || amount < 5) {
                 alert('Please enter a valid bet amount (minimum $5)');
+                return;
+            }
+            
+            if (!username) {
+                alert('Please enter a username for the leaderboard');
                 return;
             }
             
@@ -392,15 +407,16 @@
             updateOdds();
             
             // Add to recent bets table
-            addToRecentBets(type, amount);
+            addToRecentBets(username, type, amount);
             
-            // Clear input
+            // Clear inputs
             document.getElementById(inputId).value = '';
+            // Don't clear username to make repeat betting easier
             
             alert(`Your $${amount} bet on "${type.toUpperCase()}" has been placed!`);
         }
         
-        function addToRecentBets(type, amount) {
+        function addToRecentBets(username, type, amount) {
             const table = document.getElementById('betsTable');
             const newRow = table.insertRow(0);
             
@@ -409,18 +425,14 @@
             const amountCell = newRow.insertCell(2);
             const timeCell = newRow.insertCell(3);
             
-            // Generate a random username
-            const names = ['User', 'Bettor', 'Friend', 'Fan'];
-            const randomName = names[Math.floor(Math.random() * names.length)] + Math.floor(Math.random() * 1000);
-            
-            userCell.textContent = randomName;
+            userCell.textContent = username;
             typeCell.textContent = type.toUpperCase();
             amountCell.textContent = `$${amount}`;
             timeCell.textContent = 'Just now';
             
-            // Limit table to 10 rows
-            if (table.rows.length > 10) {
-                table.deleteRow(10);
+            // Limit table to 20 rows
+            if (table.rows.length > 20) {
+                table.deleteRow(20);
             }
         }
         
@@ -435,4 +447,4 @@
         setInterval(simulateActivity, 30000);
     </script>
 </body>
-</html>b
+</html>
